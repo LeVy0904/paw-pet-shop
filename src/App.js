@@ -13,6 +13,7 @@ import Profile from './components/profile/Profile'
 import ProductDetail from './components/product-detail/ProductDetail';
 import NotFound from './components/not-found/NotFound';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Signup from './components/signup/Signup';
 function App() {
   return (
     <div className="App">
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/products" element={<ProductCard />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
@@ -43,3 +45,4 @@ function App() {
 }
 
 export default App;
+

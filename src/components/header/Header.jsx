@@ -93,7 +93,7 @@ export default function Header() {
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item
-                  href="#action4"
+                  href="/login"
                   className="custom-dropdown-item"
                 >
                   Đăng xuất
@@ -120,3 +120,4 @@ export default function Header() {
     </>
   );
 }
+

@@ -1,8 +1,8 @@
 import React from "react";
 import theCat from "../../img/babycute.jpg";
-import "./login.css";
 
-export default function Login() {
+
+export default function Signup() {
   return (
     <div className="login_contact">
       {/* <h1>Contact Us</h1> */}
@@ -18,7 +18,7 @@ export default function Login() {
           <div className="login_sb_contact-link-div">
             {" "}
             {/* content */}
-            <h2> Đăng nhập </h2>
+            <h2> Đăng ký </h2>
             <form action="#" method="post">
               <input
                 type="email"
@@ -27,19 +27,18 @@ export default function Login() {
               />
 
               <input type="password" name="cf_pass" placeholder="Mật khẩu" />
+              <input type="password" name="cf_pass" placeholder="Nhập lại mật khẩu" />
               <button type="submit" className="login_btn">
                 {" "}
-                Đăng nhập <i className="fas fa-paper"></i>
+                Đăng ký <i className="fas fa-paper"></i>
               </button>
               <p class="title_first">
-                Bạn chưa có tài khoản? <a href="/signup" class="css_btn_1"> Đăng ký </a>
+                Bạn đã có tài khoản? <a href="/login" class="css_btn_1"> Đăng nhập </a>
               </p>
-              
             </form>
           </div>
         </div>
       </div>
     </div>
-    
   );
 }

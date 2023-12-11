@@ -118,6 +118,18 @@ textarea {
     transition: 0.3s ease;
 }
 
+.css_btn_1{
+    text-decoration: none;
+    color :#140ced;
+    
+}
+.css_btn_1:hover{
+    color: red;;
+}
+.title_first{
+    font-size: 12px;
+    margin-top: 10px;
+}
 @media(max-width:736px) {
     .login_contact .login_sb_contact-link {
         flex-direction: column;
