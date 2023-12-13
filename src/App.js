@@ -11,9 +11,11 @@ import Login from './components/login/Login'
 import ProductCard from './components/product/ProductCard';
 import Profile from './components/profile/Profile'
 import ProductDetail from './components/product-detail/ProductDetail';
+import PetCart from './components/product/petCart';
 import NotFound from './components/not-found/NotFound';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from './components/signup/Signup';
+import AllProductCart from './components/product/allProductCart';
 function App() {
   return (
     <div className="App">
@@ -26,6 +28,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/products" element={<ProductCard />} />
+          <Route path="/all-product" element={<AllProductCart />} />
+          <Route path="/pet" element={< PetCart />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
           <Route path="/slider" element={<Slider />} />

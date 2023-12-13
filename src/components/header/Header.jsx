@@ -33,13 +33,42 @@ export default function Header() {
               <Nav.Link as={Link} className="mx-3 mt-3 " to={"/home"}>
                 TRANG CHỦ
               </Nav.Link>
-              <Nav.Link
+              {/* <Nav.Link
                 as={Link}
                 to={"/products"}
                 className="custom-sub-nav mx-3 mt-3"
               >
                 MUA HÀNG
-              </Nav.Link>
+              </Nav.Link> */}
+               <NavDropdown
+                title="MUA HÀNG"
+                id="navbarScrollingDropdown"
+                align={"end"}
+                to={"/products"}
+                className="custom-sub-nav mt-3 mx-3"
+              >
+                <NavDropdown.Item
+                  className="custom-dropdown-item"
+                  href="/all-product"
+                  style={{ fontSize: "16px", fontWeight: "700" }}
+                >
+                  SẢN PHẨM 
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  className="custom-dropdown-item"
+                  href="/pet"
+                  style={{ fontSize: "16px", fontWeight: "700" }}
+                >
+                 THÚ CƯNG
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                {/* <NavDropdown.Item
+                  className="custom-dropdown-item"
+                  href="#action5"
+                >
+                  Something else here
+                </NavDropdown.Item> */}
+              </NavDropdown>
               <NavDropdown
                 title="XEM THÊM"
                 id="navbarScrollingDropdown"
