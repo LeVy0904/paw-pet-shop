@@ -1,32 +1,38 @@
 import React from "react";
 import "./profile.css";
+import { useNavigate } from "react-router";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import theImg from "../../img/catlogin.jpg";
 
 const Profile = () => {
+    const storedCustomer = localStorage.getItem('user');
+    const user = storedCustomer? JSON.parse(storedCustomer) : null;
+
     return (
         <div className="profile-css">
             <section className="profile">
                 <header className="header">
                     <div className="details">
                         <img src={theImg} alt="" className="profile-pic" />
-                        <h1 className="heading">Claire Doe</h1>
+                        <h1 className="heading">{user.name || ''}</h1>
                         <div className="location">
                             <p>Thành Viên</p>
                         </div>
-                        <div className="stats">
+                        {/* <div className="stats">
                             <div className="col-4">
-                                <h4>20</h4>
-                                <p>Đánh Giá</p>
+                                <h4>Phone number:</h4>
+                                <p>{user.phone_number || ''}</p>
                             </div>
                             <div className="col-4">
-                                <h4>10</h4>
-                                <p>Diễn Đàn</p>
+                                <h4>Date of Birth:</h4>
+                                <p>{user.dateofbirth || ''}</p>
                             </div>
                             <div className="col-4">
                                 <h4>100</h4>
                                 <p>Thảo Luận</p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </header>
                 <div className="proflie-content">
@@ -40,6 +46,15 @@ Tình yêu của tôi đối với mèo bắt đầu khi cô nhận nuôi một 
                     </div>
                     <div>
                         <h2>Hồ Sơ</h2>
+                        <p>
+                            Thời Gian Tham Gia: 11th 14, 2023
+                        </p>
+                        <p>
+                            Thời Gian Tham Gia: 11th 14, 2023
+                        </p>
+                        <p>
+                            Thời Gian Tham Gia: 11th 14, 2023
+                        </p>
                         <p>
                             Thời Gian Tham Gia: 11th 14, 2023
                         </p>

@@ -21,16 +21,16 @@ function App() {
         <Header />
         <div className='container1'></div>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
+          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/home/:customerid" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/products" element={<ProductCard />} />
+          <Route path="/products/" element={<ProductCard />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
           <Route path="/slider" element={<Slider />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/profile/:customerid" element={<Profile />} />
+          <Route path="/cart/:customerid" element={<Cart />} />
           <Route path="/credit" element={<Credit />} />
           <Route path="/product-detail/:productId" element={<ProductDetail />} />
           <Route path="*" element={<NotFound />} />

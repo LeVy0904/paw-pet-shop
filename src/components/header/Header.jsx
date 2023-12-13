@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios'
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -7,8 +8,27 @@ import { Link } from "react-router-dom";
 import "./header.css";
 import { BsCart3, BsPerson } from "react-icons/bs";
 import logo from "../../img/logo.svg";
+import { useNavigate } from "react-router";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const storeduser = localStorage.getItem('user');
+  const user = storeduser ? JSON.parse(storeduser) : null;
+  
+ 
+    
+
+  const handleToProfile = () => {
+    if (user && user._id) {
+      console.log(user._id);
+      navigate(`/profile/${user._id}`);
+    } else {
+      console.error("Thông tin khách hàng không khả dụng");
+      navigate("/login");
+    }
+  };
   return (
     <>
       <Navbar
@@ -79,17 +99,19 @@ export default function Header() {
               >
                 <NavDropdown.Item
                   as={Link}
-                  to="/profile"
+                  to={`/profile/${user._id}`}
                   className="custom-dropdown-item"
+                  onClick={handleToProfile}
                 >
                   Hồ sơ
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   as={Link}
-                  to="/login"
+                  to={user ? "/profile" : "/login"}
                   className="custom-dropdown-item"
+                  onClick={user ? handleToProfile : null}
                 >
-                  Đăng nhập
+                  {user ? user.name : "Đăng nhập"}
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item
