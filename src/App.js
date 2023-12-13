@@ -16,6 +16,7 @@ import NotFound from './components/not-found/NotFound';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from './components/signup/Signup';
 import AllProductCart from './components/product/allProductCart';
+import IconAdd from './components/iconadd/iconadd';
 function App() {
   return (
     <div className="App">
@@ -42,9 +43,11 @@ function App() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/moviesdetail" element={<MoviesDetail />} /> */}
         </Routes>
+        <IconAdd />
         <Footer />
       </Router>
     </div>
+
   );
 }
 
