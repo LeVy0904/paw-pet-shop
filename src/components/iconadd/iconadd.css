@@ -1,0 +1,15 @@
+.iconadd {
+    bottom: 15px;
+    right: 15px;
+    position: fixed;
+    z-index: 9999;
+}
+.iconadd_img{
+    width: 60px;
+    height: 60px;
+}
+
+.iconadd .dropdown *{
+    background-color: #f88d58!important;
+    border : 1px solid #f88d58;
+}

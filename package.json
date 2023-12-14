@@ -15,6 +15,7 @@
     "react-card-slider-component": "^1.0.9",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.20.1",
     "react-scripts": "^5.0.1",
     "tar": "^6.2.0",
