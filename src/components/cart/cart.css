@@ -69,6 +69,16 @@
 
 }
 
+.selectProduct {
+	text-align: left;
+	font-size: 18px;
+	font-weight: 500;
+}
+
+.selectProduct-input {
+	margin-right: 5px;
+}
+
 .product-remove {
 	position: absolute;
 	bottom: -13px;
