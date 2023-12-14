@@ -4,12 +4,9 @@ import Cart from './components/cart/cart';
 import Slider from './components/slider/reactslider';
 import About from './components/about/about';
 import Contact from './components/contact/contact';
-import Footer from './components/footer/footer';
 import Home from './pages/homePage';
-import Header from './components/header/Header';
-import Login from './components/login/Login'
 import ProductCard from './components/product/ProductCard';
-import Profile from './components/profile/Profile'
+import Profile from './pages/profilePage';
 import ProductDetail from './components/product-detail/ProductDetail';
 import NotFound from './components/not-found/NotFound';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -22,7 +19,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home/:customerid" element={<Home />} />
-          {/* <Route path="/login" element={<Login />} /> */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/products/" element={<ProductCard />} />
           <Route path="/contact" element={<Contact />} />

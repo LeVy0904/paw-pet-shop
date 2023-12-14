@@ -16,19 +16,23 @@ export default function Header() {
   const navigate = useNavigate();
   const storeduser = localStorage.getItem('user');
   const user = storeduser ? JSON.parse(storeduser) : null;
-  
- 
-    
 
   const handleToProfile = () => {
-    if (user && user._id) {
-      console.log(user._id);
-      navigate(`/profile/${user._id}`);
+    if (user && user.userid) {
+      navigate(`/profile/${user.userid}`);
     } else {
       console.error("Thông tin khách hàng không khả dụng");
-      navigate("/login");
+      navigate("/");
     }
   };
+
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('tokenExpiration');
+    navigate("/");
+   };
+
   return (
     <>
       <Navbar
@@ -88,7 +92,9 @@ export default function Header() {
                   Something else here
                 </NavDropdown.Item> */}
               </NavDropdown>
-              <Nav.Link className="mx-1 mt-3" as={Link} to="/cart">
+              <Nav.Link className="mx-1 mt-3" 
+              as={Link} 
+              to={`/cart/${user.userid}`}>
                 <BsCart3 />
               </Nav.Link>
               <NavDropdown
@@ -97,17 +103,17 @@ export default function Header() {
                 id="navbarScrollingDropdown"
                 align={"end"}
               >
-                <NavDropdown.Item
+                {/* <NavDropdown.Item
                   as={Link}
                   to={`/profile/${user._id}`}
                   className="custom-dropdown-item"
                   onClick={handleToProfile}
                 >
                   Hồ sơ
-                </NavDropdown.Item>
+                </NavDropdown.Item> */}
                 <NavDropdown.Item
                   as={Link}
-                  to={user ? "/profile" : "/login"}
+                  to={`/profile/${user.userid}`}
                   className="custom-dropdown-item"
                   onClick={user ? handleToProfile : null}
                 >
@@ -115,8 +121,9 @@ export default function Header() {
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item
-                  href="/login"
+                  href="/"
                   className="custom-dropdown-item"
+                  onClick={handleLogOut}
                 >
                   Đăng xuất
                 </NavDropdown.Item>
