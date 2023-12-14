@@ -9,6 +9,13 @@ const Profile = () => {
   const storedCustomer = localStorage.getItem("user");
   const user = storedCustomer ? JSON.parse(storedCustomer) : null;
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+
+    const formattedDate = new Date(dateString).toLocaleDateString();
+    return formattedDate;
+  };
+
   return (
     <div className="profile-css">
       <section className="profile">
@@ -51,9 +58,9 @@ const Profile = () => {
           </div>
           <div>
             <h2>Hồ Sơ</h2>
-            <p>Thời Gian Tham Gia: 11th 14, 2023</p>
-            <p>Thời Gian Tham Gia: 11th 14, 2023</p>
-            <p>Thời Gian Tham Gia: 11th 14, 2023</p>
+            <p>Date Of Birth: {formatDate(user.dateofbirth) || ""}</p>
+            <p>Phone Number: {user.phone_number || ""}</p>
+            <p>Participation At: {formatDate(user.create) || ""}</p>
             <p>Thời Gian Tham Gia: 11th 14, 2023</p>
           </div>
         </div>

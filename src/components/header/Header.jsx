@@ -26,13 +26,13 @@ export default function Header() {
 
   const handleToProfile = () => {
     if (user && user.userid) {
-      console.log(user.userid);
       navigate(`/profile/${user.userid}`);
     } else {
       console.error("Thông tin khách hàng không khả dụng");
       navigate("/");
     }
   };
+
   return (
     <>
       <Navbar
@@ -127,7 +127,11 @@ export default function Header() {
                   Something else here
                 </NavDropdown.Item> */}
               </NavDropdown>
-              <Nav.Link className="mx-1 mt-3" as={Link} to="/cart">
+              <Nav.Link
+                className="mx-1 mt-3"
+                as={Link}
+                to={`/cart/${user.userid}`}
+              >
                 <BsCart3 />
               </Nav.Link>
               <NavDropdown
@@ -136,17 +140,17 @@ export default function Header() {
                 id="navbarScrollingDropdown"
                 align={"end"}
               >
-                <NavDropdown.Item
+                {/* <NavDropdown.Item
                   as={Link}
                   to={`/profile/${user.userid}`}
                   className="custom-dropdown-item"
                   onClick={handleToProfile}
                 >
                   Hồ sơ
-                </NavDropdown.Item>
+                </NavDropdown.Item> */}
                 <NavDropdown.Item
                   as={Link}
-                  to={user ? `/profile/${user.userid}` : "/login"}
+                  to={`/profile/${user.userid}`}
                   className="custom-dropdown-item"
                   onClick={user ? handleToProfile : null}
                 >
