@@ -7,7 +7,7 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import ProductModal from "../modal/ProductModal";
 //import { productDataList } from "../../data/data";
-
+import IconAdd from "../iconadd/iconadd";
 import "./productCard.css";
 
 import SearchBar from "../search-bar/SearchBar";
@@ -101,7 +101,7 @@ export default function PetCard() {
         //   setModalShow({ show: false, productData })
         // }
       />
-
+      <IconAdd />
       {/* {selectedProduct && <ProductDetail productDetails={selectedProduct} />} */}
     </>
   );

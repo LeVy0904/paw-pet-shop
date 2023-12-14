@@ -42,8 +42,8 @@ function App() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/moviesdetail" element={<MoviesDetail />} /> */}
         </Routes>
-        <IconAdd />
-        <Footer />
+        {/* <IconAdd /> */}
+        {/* <Footer /> */}
       </Router>
     </div>
 

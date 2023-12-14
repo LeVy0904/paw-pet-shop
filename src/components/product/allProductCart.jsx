@@ -7,7 +7,7 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import ProductModal from "../modal/ProductModal";
 //import { productDataList } from "../../data/data";
-
+import IconAdd from "../iconadd/iconadd";
 import "./productCard.css";
 
 import SearchBar from "../search-bar/SearchBar";
@@ -22,13 +22,12 @@ export default function AllProductCard() {
   const [productDataList, setProductDataList] = useState([]);
 
   useEffect(() => {
-    
     const productApi = "http://localhost:3001/v1/product/getAllProducts";
     axios
       .get(productApi)
-      .then( (productResponse) => {
+      .then((productResponse) => {
         const productData = productResponse.data;
-        setProductDataList(productData );
+        setProductDataList(productData);
       })
       .catch((error) => {
         console.log(error);
@@ -102,7 +101,7 @@ export default function AllProductCard() {
         //   setModalShow({ show: false, productData })
         // }
       />
-
+      <IconAdd />
       {/* {selectedProduct && <ProductDetail productDetails={selectedProduct} />} */}
     </>
   );

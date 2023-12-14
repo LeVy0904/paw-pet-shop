@@ -1,5 +1,5 @@
 import React from "react";
-import axios from 'axios'
+import axios from "axios";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -14,11 +14,8 @@ import { useParams } from "react-router";
 
 export default function Header() {
   const navigate = useNavigate();
-  const storeduser = localStorage.getItem('user');
+  const storeduser = localStorage.getItem("user");
   const user = storeduser ? JSON.parse(storeduser) : null;
-  
- 
-    
 
   const handleToProfile = () => {
     if (user && user._id) {
@@ -60,7 +57,7 @@ export default function Header() {
               >
                 MUA HÀNG
               </Nav.Link> */}
-               <NavDropdown
+              <NavDropdown
                 title="MUA HÀNG"
                 id="navbarScrollingDropdown"
                 align={"end"}
@@ -69,25 +66,26 @@ export default function Header() {
               >
                 <NavDropdown.Item
                   className="custom-dropdown-item"
+                  href="/products"
+                  style={{ fontSize: "16px", fontWeight: "700" }}
+                >
+                  TẤT CẢ SẢN PHẨM
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item
+                  className="custom-dropdown-item"
                   href="/all-product"
                   style={{ fontSize: "16px", fontWeight: "700" }}
                 >
-                  SẢN PHẨM 
+                  PHỤ KIỆN, ĐỒ ĂN
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   className="custom-dropdown-item"
                   href="/pet"
                   style={{ fontSize: "16px", fontWeight: "700" }}
                 >
-                 THÚ CƯNG
+                  THÚ CƯNG
                 </NavDropdown.Item>
-                <NavDropdown.Divider />
-                {/* <NavDropdown.Item
-                  className="custom-dropdown-item"
-                  href="#action5"
-                >
-                  Something else here
-                </NavDropdown.Item> */}
               </NavDropdown>
               <NavDropdown
                 title="XEM THÊM"
@@ -171,4 +169,3 @@ export default function Header() {
     </>
   );
 }
-
