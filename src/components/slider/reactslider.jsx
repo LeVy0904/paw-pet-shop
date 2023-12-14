@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import "./slider.css";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 const slides = [
@@ -51,7 +51,7 @@ const slides = [
 ];
 
 export default function Slider() {
-  const [sliderPosition, setSliderPosition] = useState(0);
+  // const [sliderPosition, setSliderPosition] = useState(0);
   const sliderRef = useRef(null);
   const sliderClick = (link) => {
     window.location.href = link;

@@ -4,19 +4,16 @@ import Cart from './components/cart/cart';
 import Slider from './components/slider/reactslider';
 import About from './components/about/about';
 import Contact from './components/contact/contact';
-import Footer from './components/footer/footer';
 import Home from './pages/homePage';
-import Header from './components/header/Header';
-import Login from './components/login/Login'
 import ProductCard from './components/product/ProductCard';
-import Profile from './components/profile/Profile'
+import Profile from './pages/profilePage';
 import ProductDetail from './components/product-detail/ProductDetail';
 import PetCart from './components/product/petCart';
 import NotFound from './components/not-found/NotFound';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from './components/signup/Signup';
 import AllProductCart from './components/product/allProductCart';
-import IconAdd from './components/iconadd/iconadd';
+
 function App() {
   return (
     <div className="App">

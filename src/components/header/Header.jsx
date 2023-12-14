@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -9,21 +9,28 @@ import "./header.css";
 import { BsCart3, BsPerson } from "react-icons/bs";
 import logo from "../../img/logo.svg";
 import { useNavigate } from "react-router";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+// import { useState, useEffect } from "react";
+// import { useParams } from "react-router";
 
 export default function Header() {
   const navigate = useNavigate();
   const storeduser = localStorage.getItem("user");
   const user = storeduser ? JSON.parse(storeduser) : null;
 
+  const handleLogOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("tokenExpiration");
+    navigate("/");
+  };
+
   const handleToProfile = () => {
-    if (user && user._id) {
-      console.log(user._id);
-      navigate(`/profile/${user._id}`);
+    if (user && user.userid) {
+      console.log(user.userid);
+      navigate(`/profile/${user.userid}`);
     } else {
       console.error("Thông tin khách hàng không khả dụng");
-      navigate("/login");
+      navigate("/");
     }
   };
   return (
@@ -37,7 +44,7 @@ export default function Header() {
         collapseOnSelect
       >
         <Container fluid className="custom-header2">
-          <Navbar.Brand href="/home" id="my-brand">
+          <Navbar.Brand as={Link} to={"/"} id="my-brand">
             {<img src={logo} alt="" srcset="" />}
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
@@ -47,7 +54,7 @@ export default function Header() {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link as={Link} className="mx-3 mt-3 " to={"/home"}>
+              <Nav.Link as={Link} className="mx-3 mt-3 " to={"/"}>
                 TRANG CHỦ
               </Nav.Link>
               {/* <Nav.Link
@@ -61,12 +68,13 @@ export default function Header() {
                 title="MUA HÀNG"
                 id="navbarScrollingDropdown"
                 align={"end"}
-                to={"/products"}
+                // to={"/products"}
                 className="custom-sub-nav mt-3 mx-3"
               >
                 <NavDropdown.Item
                   className="custom-dropdown-item"
-                  href="/products"
+                  as={Link}
+                  to={"/products"}
                   style={{ fontSize: "16px", fontWeight: "700" }}
                 >
                   TẤT CẢ SẢN PHẨM
@@ -74,14 +82,16 @@ export default function Header() {
                 <NavDropdown.Divider />
                 <NavDropdown.Item
                   className="custom-dropdown-item"
-                  href="/all-product"
+                  as={Link}
+                  to={"/all-product"}
                   style={{ fontSize: "16px", fontWeight: "700" }}
                 >
                   PHỤ KIỆN, ĐỒ ĂN
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   className="custom-dropdown-item"
-                  href="/pet"
+                  as={Link}
+                  to={"/pet"}
                   style={{ fontSize: "16px", fontWeight: "700" }}
                 >
                   THÚ CƯNG
@@ -95,14 +105,16 @@ export default function Header() {
               >
                 <NavDropdown.Item
                   className="custom-dropdown-item"
-                  href="/about"
+                  as={Link}
+                  to={"/about"}
                   style={{ fontSize: "16px", fontWeight: "700" }}
                 >
                   THÔNG TIN
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   className="custom-dropdown-item"
-                  href="/contact"
+                  as={Link}
+                  to={"/contact"}
                   style={{ fontSize: "16px", fontWeight: "700" }}
                 >
                   LIÊN HỆ
@@ -126,7 +138,7 @@ export default function Header() {
               >
                 <NavDropdown.Item
                   as={Link}
-                  to={`/profile/${user._id}`}
+                  to={`/profile/${user.userid}`}
                   className="custom-dropdown-item"
                   onClick={handleToProfile}
                 >
@@ -134,7 +146,7 @@ export default function Header() {
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   as={Link}
-                  to={user ? "/profile" : "/login"}
+                  to={user ? `/profile/${user.userid}` : "/login"}
                   className="custom-dropdown-item"
                   onClick={user ? handleToProfile : null}
                 >
@@ -142,7 +154,9 @@ export default function Header() {
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item
-                  href="/login"
+                  // as={Link}
+                  // to={"/login"}
+                  onClick={handleLogOut}
                   className="custom-dropdown-item"
                 >
                   Đăng xuất
