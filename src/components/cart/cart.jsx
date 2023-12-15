@@ -18,8 +18,6 @@ export default function Cart() {
       .then((response) => {
         const newData = response.data.cart;
         const newProduct = response.data.cart.products
-        setCart(newData);
-        setProduct(newProduct);
 
         const initialSelectedProducts = newProduct.reduce((acc, product) => {
           return { ...acc, [product.productid._id]: false };
@@ -29,7 +27,6 @@ export default function Cart() {
         setProduct(newProduct);
         setSelectedProducts(initialSelectedProducts);
 
-        // Send initial selected state to the server
         updateSelectedProductsToServer(initialSelectedProducts);
 
         localStorage.setItem('Cart', JSON.stringify(newData));
@@ -65,9 +62,6 @@ export default function Cart() {
       const newData = response.data.cart;
       const newProduct = response.data.cart.products;
   
-      setCart(newData);
-      setProduct(newProduct);
-  
       const initialSelectedProducts = newProduct.reduce((acc, product) => {
         return { ...acc, [product.productid._id]: false };
       }, {});
@@ -76,7 +70,6 @@ export default function Cart() {
       setProduct(newProduct);
       setSelectedProducts(initialSelectedProducts);
   
-      // Send initial selected state to the server
       updateSelectedProductsToServer(initialSelectedProducts);
   
       localStorage.setItem('Cart', JSON.stringify(newData));
@@ -85,9 +78,10 @@ export default function Cart() {
     }
   };
   
-  useEffect(() => {
+  useEffect((productid) => {
     updateCartData();
-  }, [customerid]);
+  }, []);
+
   const handleIncreaseQuantity = async (productid) => {
     try {
       console.log(productid._id);
@@ -96,7 +90,7 @@ export default function Cart() {
         action: "increase"
       });
       setCart(response)
-      updateCartData();
+      
     } catch (error) {
       console.error('Error updating cart:', error);
     }
@@ -109,7 +103,7 @@ export default function Cart() {
         productid: productid._id,
         action: "decrease"
       });
-      updateCartData();
+      //updateCartData();
     } catch (error) {
       console.error('Error updating cart:', error);
     }
