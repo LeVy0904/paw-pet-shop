@@ -78,10 +78,9 @@ export default function Cart() {
     }
   };
   
-  useEffect((productid) => {
+  useEffect(() => {
     updateCartData();
   }, []);
-
   const handleIncreaseQuantity = async (productid) => {
     try {
       console.log(productid._id);
@@ -90,7 +89,7 @@ export default function Cart() {
         action: "increase"
       });
       setCart(response)
-      
+      updateCartData();
     } catch (error) {
       console.error('Error updating cart:', error);
     }
@@ -103,7 +102,7 @@ export default function Cart() {
         productid: productid._id,
         action: "decrease"
       });
-      //updateCartData();
+      updateCartData();
     } catch (error) {
       console.error('Error updating cart:', error);
     }

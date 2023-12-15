@@ -1,6 +1,6 @@
 import './App.css';
 import Credit from './components/credit/credit';
-import Cart from './components/cart/cart';
+import Cart from './pages/cartPage';
 import Slider from './components/slider/reactslider';
 import About from './components/about/about';
 import Contact from './components/contact/contact';
