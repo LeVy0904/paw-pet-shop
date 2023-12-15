@@ -41,15 +41,15 @@ export default function Cart() {
     try {
       for (const productid in selectedProducts) {
         const selected = selectedProducts[productid];
-  
+
         const response = await axios.put(`http://localhost:3001/v1/cart/updateCart/${customerid}`, {
           productid,
           selected,
         });
-  
+
         console.log(`Product ${productid} updated. Selected: ${selected}`, response.data);
       }
-  
+
       console.log('All selected products sent to the server.');
     } catch (error) {
       console.error('Error updating selected products:', error);
@@ -61,23 +61,23 @@ export default function Cart() {
       const response = await axios.get(`http://localhost:3001/v1/cart/getCart/${customerid}`);
       const newData = response.data.cart;
       const newProduct = response.data.cart.products;
-  
+
       const initialSelectedProducts = newProduct.reduce((acc, product) => {
         return { ...acc, [product.productid._id]: false };
       }, {});
-  
+
       setCart(newData);
       setProduct(newProduct);
       setSelectedProducts(initialSelectedProducts);
-  
+
       updateSelectedProductsToServer(initialSelectedProducts);
-  
+
       localStorage.setItem('Cart', JSON.stringify(newData));
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   useEffect(() => {
     updateCartData();
   }, []);
@@ -128,6 +128,23 @@ export default function Cart() {
     }
   };
 
+  const handleDeleteItem = async (productid) => {
+    try {
+      const response = await axios.delete(`http://localhost:3001/v1/cart/deleteItemById/${customerid}`, {
+        data: { productid: productid._id }, // Truyền productid trong body của request
+      });
+  
+      if (response.status === 200) {
+        console.log('Item deleted successfully');
+        updateCartData(); // Cập nhật dữ liệu giỏ hàng sau khi xóa sản phẩm
+      } else {
+        console.error('Error deleting item:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error deleting item:', error);
+    }
+  };
+
   return (
     <div>
       <div className="cart-container">
@@ -141,14 +158,14 @@ export default function Cart() {
                   <h3 className="product-name">Name: {product.productid.name}</h3>
                   <h4 className="product-price">Price: {product.productid.price}</h4>
                   <div className='selectProduct'>
-                  <label>
-                    <input className='selectProduct-input' 
-                      type="checkbox"
-                      checked={selectedProducts[product.productid._id]}
-                      onChange={() => handleToggleSelect(product.productid._id)}
-                    />
-                    Select
-                  </label>
+                    <label>
+                      <input className='selectProduct-input'
+                        type="checkbox"
+                        checked={selectedProducts[product.productid._id]}
+                        onChange={() => handleToggleSelect(product.productid._id)}
+                      />
+                      Select
+                    </label>
                   </div>
                   <p className="product-quantity">
                     <button
@@ -165,8 +182,14 @@ export default function Cart() {
                       +
                     </button>
                   </p>
-                  <p className="product-remove">
-                    <i className="fa fa-trash" aria-hidden="true"></i>
+                  <p onClick={() => handleDeleteItem(product.productid)}  className="product-remove">
+                    <i
+                      className="fa fa-trash"
+                      aria-hidden="true"
+                      
+                    >
+
+                    </i>
                     <span className="remove">Gỡ bỏ</span>
                   </p>
                 </div>
