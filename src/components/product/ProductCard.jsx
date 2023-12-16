@@ -13,6 +13,7 @@ import "./productCard.css";
 import SearchBar from "../search-bar/SearchBar";
 
 export default function ProductCard() {
+  const user = JSON.parse(localStorage.getItem("user"));
   const [modalShow, setModalShow] = useState({
     show: false,
     productData: null,
@@ -104,7 +105,8 @@ export default function ProductCard() {
         //   setModalShow({ show: false, productData })
         // }
       />
-      <IconAdd />
+      {user.admin && <IconAdd />}
+
       {/* {selectedProduct && <ProductDetail productDetails={selectedProduct} />} */}
     </>
   );

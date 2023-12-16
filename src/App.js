@@ -5,14 +5,14 @@ import Slider from './components/slider/reactslider';
 import About from './components/about/about';
 import Contact from './components/contact/contact';
 import Home from './pages/homePage';
-import ProductCard from './components/product/ProductCard';
+import ProductCard from './pages/productPage';
 import Profile from './pages/profilePage';
 import ProductDetail from './components/product-detail/ProductDetail';
-import PetCart from './components/product/petCart';
+import PetCart from './pages/petPage';
 import NotFound from './components/not-found/NotFound';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from './components/signup/Signup';
-import AllProductCart from './components/product/allProductCart';
+import AllProductCart from './pages/allProductPage';
 
 function App() {
   return (

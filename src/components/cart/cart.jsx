@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import "../cart/cart.css";
 import cat from "../../img/bonludan.jpeg";
 import { Link } from "react-router-dom";
@@ -17,7 +17,7 @@ export default function Cart() {
       .get(`http://localhost:3001/v1/cart/getCart/${customerid}`)
       .then((response) => {
         const newData = response.data.cart;
-        const newProduct = response.data.cart.products
+        const newProduct = response.data.cart.products;
 
         const initialSelectedProducts = newProduct.reduce((acc, product) => {
           return { ...acc, [product.productid._id]: false };
@@ -29,7 +29,7 @@ export default function Cart() {
 
         updateSelectedProductsToServer(initialSelectedProducts);
 
-        localStorage.setItem('Cart', JSON.stringify(newData));
+        localStorage.setItem("Cart", JSON.stringify(newData));
       })
       .catch((error) => {
         console.log(error);
@@ -37,80 +37,98 @@ export default function Cart() {
   }, []);
 
   const updateSelectedProductsToServer = async (selectedProducts) => {
+    if (!selectedProducts) return;
     console.log(selectedProducts);
     try {
       for (const productid in selectedProducts) {
         const selected = selectedProducts[productid];
-  
-        const response = await axios.put(`http://localhost:3001/v1/cart/updateCart/${customerid}`, {
-          productid,
-          selected,
-        });
-  
-        console.log(`Product ${productid} updated. Selected: ${selected}`, response.data);
+
+        const response = await axios.put(
+          `http://localhost:3001/v1/cart/updateCart/${customerid}`,
+          {
+            productid,
+            selected,
+          }
+        );
+
+        console.log(
+          `Product ${productid} updated. Selected: ${selected}`,
+          response.data
+        );
       }
-  
-      console.log('All selected products sent to the server.');
+
+      console.log("All selected products sent to the server.");
     } catch (error) {
-      console.error('Error updating selected products:', error);
+      console.error("Error updating selected products:", error);
     }
   };
 
   const updateCartData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/v1/cart/getCart/${customerid}`);
+      const response = await axios.get(
+        `http://localhost:3001/v1/cart/getCart/${customerid}`
+      );
       const newData = response.data.cart;
       const newProduct = response.data.cart.products;
-  
+
       const initialSelectedProducts = newProduct.reduce((acc, product) => {
         return { ...acc, [product.productid._id]: false };
       }, {});
-  
+
       setCart(newData);
       setProduct(newProduct);
       setSelectedProducts(initialSelectedProducts);
-  
+
       updateSelectedProductsToServer(initialSelectedProducts);
-  
-      localStorage.setItem('Cart', JSON.stringify(newData));
+
+      localStorage.setItem("Cart", JSON.stringify(newData));
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   useEffect(() => {
     updateCartData();
   }, []);
   const handleIncreaseQuantity = async (productid) => {
     try {
       console.log(productid._id);
-      const response = await axios.put(`http://localhost:3001/v1/cart/updateCart/${customerid}`, {
-        productid: productid._id,
-        action: "increase"
-      });
-      setCart(response)
+      const response = await axios.put(
+        `http://localhost:3001/v1/cart/updateCart/${customerid}`,
+        {
+          productid: productid._id,
+          action: "increase",
+        }
+      );
+      setCart(response);
       updateCartData();
     } catch (error) {
-      console.error('Error updating cart:', error);
+      console.error("Error updating cart:", error);
     }
   };
 
   const handleDecreaseQuantity = async (productid) => {
     try {
       console.log(productid);
-      const response = await axios.put(`http://localhost:3001/v1/cart/updateCart/${customerid}`, {
-        productid: productid._id,
-        action: "decrease"
-      });
+      const response = await axios.put(
+        `http://localhost:3001/v1/cart/updateCart/${customerid}`,
+        {
+          productid: productid._id,
+          action: "decrease",
+        }
+      );
       updateCartData();
     } catch (error) {
-      console.error('Error updating cart:', error);
+      console.error("Error updating cart:", error);
     }
   };
 
   const handleToggleSelect = (productid) => {
     const newSelectedValue = !selectedProducts[productid];
-    const updatedSelectedProducts = { ...selectedProducts, [productid]: newSelectedValue };
+    const updatedSelectedProducts = {
+      ...selectedProducts,
+      [productid]: newSelectedValue,
+    };
     setSelectedProducts(updatedSelectedProducts);
 
     handleSelectProduct(productid, newSelectedValue);
@@ -118,13 +136,15 @@ export default function Cart() {
 
   const handleSelectProduct = async (productid, newSelectedValue) => {
     try {
-      const response = await axios.put(`http://localhost:3001/v1/cart/updateCart/${customerid}`, {
-        productid: productid,
-        selected: newSelectedValue.toString()
-      });
-
+      const response = await axios.put(
+        `http://localhost:3001/v1/cart/updateCart/${customerid}`,
+        {
+          productid: productid,
+          selected: newSelectedValue.toString(),
+        }
+      );
     } catch (error) {
-      console.error('Error updating cart:', error);
+      console.error("Error updating cart:", error);
     }
   };
 
@@ -138,17 +158,24 @@ export default function Cart() {
               <div key={product.productId} className="product">
                 <img src={product.productid.image} alt="" />
                 <div className="product-info">
-                  <h3 className="product-name">Name: {product.productid.name}</h3>
-                  <h4 className="product-price">Price: {product.productid.price}</h4>
-                  <div className='selectProduct'>
-                  <label>
-                    <input className='selectProduct-input' 
-                      type="checkbox"
-                      checked={selectedProducts[product.productid._id]}
-                      onChange={() => handleToggleSelect(product.productid._id)}
-                    />
-                    Select
-                  </label>
+                  <h3 className="product-name">
+                    Name: {product.productid.name}
+                  </h3>
+                  <h4 className="product-price">
+                    Price: {product.productid.price}
+                  </h4>
+                  <div className="selectProduct">
+                    <label>
+                      <input
+                        className="selectProduct-input"
+                        type="checkbox"
+                        checked={selectedProducts[product.productid._id]}
+                        onChange={() =>
+                          handleToggleSelect(product.productid._id)
+                        }
+                      />
+                      Select
+                    </label>
                   </div>
                   <p className="product-quantity">
                     <button
