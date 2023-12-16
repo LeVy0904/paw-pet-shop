@@ -148,6 +148,26 @@ export default function Cart() {
     }
   };
 
+  const handleDeleteItem = async (productid) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/v1/cart/deleteItemById/${customerid}`,
+        {
+          data: { productid: productid._id }, // Truyền productid trong body của request
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Item deleted successfully");
+        updateCartData(); // Cập nhật dữ liệu giỏ hàng sau khi xóa sản phẩm
+      } else {
+        console.error("Error deleting item:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
+
   return (
     <div>
       <div className="cart-container">
@@ -192,7 +212,10 @@ export default function Cart() {
                       +
                     </button>
                   </p>
-                  <p className="product-remove">
+                  <p
+                    onClick={() => handleDeleteItem(product.productid)}
+                    className="product-remove"
+                  >
                     <i className="fa fa-trash" aria-hidden="true"></i>
                     <span className="remove">Gỡ bỏ</span>
                   </p>
