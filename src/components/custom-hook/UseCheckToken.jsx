@@ -12,10 +12,10 @@ const useCheckToken = () => {
 
       if (storedToken && storedUser && tokenExpiration) {
         const currentTime = new Date().getTime();
-        if (currentTime < tokenExpiration) {
-          const user = JSON.parse(storedUser);
-          console.log("User:", user);
-        } else {
+        if (currentTime > tokenExpiration) {
+          //   const user = JSON.parse(storedUser);
+          //   console.log("User:", user);
+          // } else {
           console.log("Token has expired, please log in again");
           localStorage.removeItem("token");
           localStorage.removeItem("user");

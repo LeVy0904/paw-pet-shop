@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -6,7 +6,8 @@ import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 import Card from "react-bootstrap/Card";
 import { Link, useNavigate } from "react-router-dom";
-import image1 from "../../img/munchkin_cat.jpg";
+import axios from "axios";
+
 import "./product-detail.css"; // Thêm file CSS tùy chỉnh
 import SmallShoppingCart from "../modal/SmallShoppingCart";
 
@@ -14,14 +15,25 @@ const ProductDetail = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
-  // Simulate fetching product details based on productId
-  const productDetails = {
-    title: "Munchkin Cat",
-    price: "20,000,000",
-    description: "Chú mèo Munchkin, với đôi chân ngắn ngủn đặc trưng, tạo nên hình ảnh đáng yêu và độc đáo. ",
-    productId: productId,
-    image: image1,
-  };
+  const [productDetails, setProductDetails] = useState(null);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/v1/product/getProductByID/${productId}`)
+      .then((response) => {
+        setProductDetails(response.data.product);
+      })
+      .catch(() => {
+        // Nếu không lấy được thông tin sản phẩm, thử với endpoint pet
+        axios
+          .get(`http://localhost:3001/v1/pet/getPetByID/${productId}`)
+          .then((petResponse) => {
+            setProductDetails(petResponse.data.pet);
+          })
+          .catch((petError) => {
+            console.error("Error fetching pet details:", petError);
+          });
+      });
+  }, [productId]);
 
   // Check if productDetails is available
   if (!productDetails) {
@@ -44,7 +56,7 @@ const ProductDetail = () => {
           <Col xs={12} md={6}>
             <Image
               src={productDetails.image}
-              alt={productDetails.title}
+              alt={productDetails.name}
               fluid
               rounded
             />
@@ -54,7 +66,7 @@ const ProductDetail = () => {
               <Card.Body className="px-4">
                 <Card.Title className="product-title">
                   <span className="h2" style={{ fontWeight: "600" }}>
-                    {productDetails.title}
+                    {productDetails.name}
                   </span>
                 </Card.Title>
                 <Card.Subtitle className="product-subtitle">
@@ -62,12 +74,44 @@ const ProductDetail = () => {
                     Giá: {productDetails.price} VNĐ
                   </span>
                 </Card.Subtitle>
-                <Card.Text className="mt-2">
-                  <strong>Mã Sản Phẩm:</strong> {productDetails.productId}
+                <Card.Text className="mt-3">
+                  <strong>Mã Sản Phẩm:</strong> {productId}
                 </Card.Text>
-                <Card.Text className="product-description">
-                  <strong>Miêu Tả:</strong> {productDetails.description}
-                </Card.Text>
+                {productDetails.type && (
+                  <Card.Text className="mt-2">
+                    <strong>Loại:</strong> {productDetails.type}
+                  </Card.Text>
+                )}
+                {productDetails.detail && (
+                  <Card.Text className="mt-2">
+                    <strong>Thông tin thêm:</strong> {productDetails.detail}
+                  </Card.Text>
+                )}
+                {productDetails.age && (
+                  <Card.Text className="mt-2">
+                    <strong>Tuổi:</strong> {productDetails.age}
+                  </Card.Text>
+                )}
+                {productDetails.gender && (
+                  <Card.Text className="mt-2">
+                    <strong>Giới Tính:</strong> {productDetails.gender}
+                  </Card.Text>
+                )}
+                {productDetails.weight && (
+                  <Card.Text className="mt-2">
+                    <strong>Cân Nặng:</strong> {productDetails.weight} kg
+                  </Card.Text>
+                )}
+                {productDetails.origin && (
+                  <Card.Text className="mt-2">
+                    <strong>Xuất Xứ:</strong> {productDetails.origin}
+                  </Card.Text>
+                )}
+                {productDetails.description && (
+                  <Card.Text className="product-description">
+                    <strong>Miêu Tả:</strong> {productDetails.description}
+                  </Card.Text>
+                )}
                 <div className="button-container mt-5 mb-3 ">
                   <button
                     className="add-to-cart-button"

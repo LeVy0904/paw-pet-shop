@@ -55,12 +55,14 @@ export default function Login() {
                   name="name"
                   placeholder="Nhập Email của bạn"
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
                 <input
                   type="password"
                   name="cf_pass"
                   placeholder="Mật khẩu"
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
                 <button type="submit" className="login_btn">
                   Đăng nhập <i className="fas fa-paper"></i>

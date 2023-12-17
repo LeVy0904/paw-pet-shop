@@ -79,8 +79,8 @@ export default function ProductModal(props) {
                 </button>
                 <p style={{ textAlign: "right" }}>
                   <Link
-                    to={`/product-detail/${productData.productId}`}
-                    onClick={() => {}}
+                    to={`/product-detail/${productData._id}`}
+                    onClick={handleClose}
                   >
                     Chi tiết sản phẩm
                   </Link>
