@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import "../cart/cart.css";
 import cat from "../../img/bonludan.jpeg";
@@ -12,54 +12,91 @@ export default function Cart() {
   const [selectedProducts, setSelectedProducts] = useState({});
   const { customerid } = useParams();
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:3001/v1/cart/getCart/${customerid}`)
-      .then((response) => {
-        const newData = response.data.cart;
-        const newProduct = response.data.cart.products;
-
-        const initialSelectedProducts = newProduct.reduce((acc, product) => {
-          return { ...acc, [product.productid._id]: false };
-        }, {});
-
-        setCart(newData);
-        setProduct(newProduct);
-        setSelectedProducts(initialSelectedProducts);
-
-        updateSelectedProductsToServer(initialSelectedProducts);
-
-        localStorage.setItem("Cart", JSON.stringify(newData));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  const updateSelectedProductsToServer = async (selectedProducts) => {
-    if (!selectedProducts) return;
-    console.log(selectedProducts);
+  const fetchData = async () => {
     try {
-      for (const productid in selectedProducts) {
-        const selected = selectedProducts[productid];
+      const response = await axios.get(
+        `http://localhost:3001/v1/cart/getCart/${customerid}`
+      );
+      const newData = response.data.cart;
+      const newProduct = response.data.cart.products;
 
-        const response = await axios.put(
-          `http://localhost:3001/v1/cart/updateCart/${customerid}`,
-          {
-            productid,
-            selected,
-          }
-        );
+      const initialSelectedProducts = newProduct.reduce((acc, product) => {
+        return { ...acc, [product.productid._id]: product.selected };
+      }, {});
 
-        console.log(
-          `Product ${productid} updated. Selected: ${selected}`,
-          response.data
-        );
-      }
+      setCart(newData);
+      setProduct(newProduct);
+      setSelectedProducts(initialSelectedProducts);
+      console.log(initialSelectedProducts);
 
-      console.log("All selected products sent to the server.");
+      localStorage.setItem("Cart", JSON.stringify(newData));
     } catch (error) {
-      console.error("Error updating selected products:", error);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(); // Fetch data when the component mounts or customerid changes
+  }, [customerid]);
+
+
+  const handleToggleSelect = (productid) => {
+    const newSelectedValue = !selectedProducts[productid];
+    const updatedSelectedProducts = {
+      ...selectedProducts,
+      [productid]: newSelectedValue,
+    };
+    setSelectedProducts(updatedSelectedProducts);
+  };
+
+  const handleIncreaseQuantity = async (productid) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3001/v1/cart/updateCart/${customerid}`,
+        {
+          productid: productid._id,
+          action: "increase",
+        }
+      );
+      setCart(response);
+      updateCartData();
+    } catch (error) {
+      console.error("Error updating cart:", error);
+    }
+  };
+
+  const handleDecreaseQuantity = async (productid) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3001/v1/cart/updateCart/${customerid}`,
+        {
+          productid: productid._id,
+          action: "decrease",
+        }
+      );
+      updateCartData();
+    } catch (error) {
+      console.error("Error updating cart:", error);
+    }
+  };
+
+  const handleDeleteItem = async (productid) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/v1/cart/deleteItemById/${customerid}`,
+        {
+          data: { productid: productid._id },
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Sản phẩm đã được xóa thành công");
+        updateCartData();
+      } else {
+        console.error("Lỗi khi xóa sản phẩm:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Lỗi khi xóa sản phẩm:", error);
     }
   };
 
@@ -79,99 +116,71 @@ export default function Cart() {
       setProduct(newProduct);
       setSelectedProducts(initialSelectedProducts);
 
-      updateSelectedProductsToServer(initialSelectedProducts);
-
       localStorage.setItem("Cart", JSON.stringify(newData));
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    updateCartData();
-  }, []);
-  const handleIncreaseQuantity = async (productid) => {
+  const handleSaveSelections = async () => {
     try {
-      console.log(productid._id);
-      const response = await axios.put(
-        `http://localhost:3001/v1/cart/updateCart/${customerid}`,
-        {
-          productid: productid._id,
-          action: "increase",
-        }
-      );
-      setCart(response);
-      updateCartData();
-    } catch (error) {
-      console.error("Error updating cart:", error);
-    }
-  };
+      for (const productid in selectedProducts) {
+        const selected = selectedProducts[productid];
 
-  const handleDecreaseQuantity = async (productid) => {
-    try {
-      console.log(productid);
-      const response = await axios.put(
-        `http://localhost:3001/v1/cart/updateCart/${customerid}`,
-        {
-          productid: productid._id,
-          action: "decrease",
-        }
-      );
-      updateCartData();
-    } catch (error) {
-      console.error("Error updating cart:", error);
-    }
-  };
+        const response = await axios.put(
+          `http://localhost:3001/v1/cart/updateCart/${customerid}`,
+          {
+            productid,
+            selected,
+          }
+        );
 
-  const handleToggleSelect = (productid) => {
-    const newSelectedValue = !selectedProducts[productid];
-    const updatedSelectedProducts = {
-      ...selectedProducts,
-      [productid]: newSelectedValue,
-    };
-    setSelectedProducts(updatedSelectedProducts);
-
-    handleSelectProduct(productid, newSelectedValue);
-  };
-
-  const handleSelectProduct = async (productid, newSelectedValue) => {
-    try {
-      const response = await axios.put(
-        `http://localhost:3001/v1/cart/updateCart/${customerid}`,
-        {
-          productid: productid,
-          selected: newSelectedValue.toString(),
-        }
-      );
-    } catch (error) {
-      console.error("Error updating cart:", error);
-    }
-  };
-
-  const handleDeleteItem = async (productid) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:3001/v1/cart/deleteItemById/${customerid}`,
-        {
-          data: { productid: productid._id }, // Truyền productid trong body của request
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("Item deleted successfully");
-        updateCartData(); // Cập nhật dữ liệu giỏ hàng sau khi xóa sản phẩm
-      } else {
-        console.error("Error deleting item:", response.data.message);
+        console.log(
+          `Sản phẩm ${productid} đã được cập nhật. Đã chọn: ${selected}`,
+          response.data
+        );
       }
+
+      console.log("Tất cả sản phẩm đã chọn đã được gửi lên server.");
     } catch (error) {
-      console.error("Error deleting item:", error);
+      console.error("Lỗi khi cập nhật thông tin sản phẩm đã chọn:", error);
     }
   };
+
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+
+    for (const product of products) {
+      const productId = product.productid._id;
+      if (selectedProducts[productId]) {
+        totalPrice += product.productid.price * product.quantity;
+      }
+    }
+
+    return totalPrice;
+  };
+
+  const productsQuantity = () => {
+    let productsQ = 0;
+    for (const product of products) {
+      const productId = product.productid._id;
+      if (selectedProducts[productId]) {
+        productsQ ++;
+      }
+    }
+
+    return productsQ;
+  };
+
+  const productsQ = productsQuantity();
+
+  const totalPrice = calculateTotalPrice();
+  console.log(totalPrice);
 
   return (
     <div>
       <div className="cart-container">
-        <h1>My Cart</h1>
+        <h1>Giỏ hàng của tôi</h1>
         <div className="cart">
           <div className="cart-product">
             {products.map((product) => (
@@ -179,10 +188,10 @@ export default function Cart() {
                 <img src={product.productid.image} alt="" />
                 <div className="product-info">
                   <h3 className="product-name">
-                    Name: {product.productid.name}
+                    Tên: {product.productid.name}
                   </h3>
                   <h4 className="product-price">
-                    Price: {product.productid.price}
+                    Giá: {product.productid.price}
                   </h4>
                   <div className="selectProduct">
                     <label>
@@ -194,7 +203,7 @@ export default function Cart() {
                           handleToggleSelect(product.productid._id)
                         }
                       />
-                      Select
+                      Chọn
                     </label>
                   </div>
                   <p className="product-quantity">
@@ -226,18 +235,18 @@ export default function Cart() {
 
           <div className="cart-total">
             <p>
-              <span>Tổng Tiền</span>
-              <span>360.000</span>
+              <span>Tổng giá</span>
+              <span>{totalPrice}</span>
             </p>
 
             <p>
-              <span>Số Sản Phẩm</span>
-              <span>2</span>
+              <span>Số sản phẩm</span>
+              <span>{productsQ}</span>
             </p>
 
             <p>
-              <span>Tiết Kiệm</span>
-              <span>36.000</span>
+              <span>Tiết kiệm</span>
+              <span>0</span>
             </p>
 
             <p>
@@ -247,13 +256,13 @@ export default function Cart() {
             <div className="total">
               <p>
                 <span>
-                  <b>Thành Tiền </b>
+                  <b>Thành tiền </b>
                 </span>
                 <span>
-                  <b>324.000</b>
+                  <b>{totalPrice}</b>
                 </span>
               </p>
-              <Link to={"/credit"}>Tiến Hành Thanh Toán</Link>
+              <Link onClick={handleSaveSelections} to={"/credit"}>Tiến hành thanh toán</Link>
             </div>
           </div>
         </div>
