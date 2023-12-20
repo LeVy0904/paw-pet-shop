@@ -9,6 +9,7 @@ import ProductCard from './pages/productPage';
 import Profile from './pages/profilePage';
 import ProductDetail from './pages/detailProductPage';
 import PetCart from './pages/petPage';
+import EditProduct from './components/modal/EditProduct';
 import NotFound from './components/not-found/NotFound';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from './components/signup/Signup';

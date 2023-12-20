@@ -3,9 +3,12 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import editIcon from "../../img/edit.png"
+import deleteIcon from "../../img/delete.png"
 // import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import ProductModal from "../modal/ProductModal";
+import EditProductModal from "../modal/EditProduct"
 //import { productDataList } from "../../data/data";
 import IconAdd from "../iconadd/iconadd";
 import "./productCard.css";
@@ -15,6 +18,11 @@ import SearchBar from "../search-bar/SearchBar";
 export default function ProductCard() {
   const user = JSON.parse(localStorage.getItem("user"));
   const [modalShow, setModalShow] = useState({
+    show: false,
+    productData: null,
+  });
+
+  const [modalEditShow, setModalEditShow] = useState({
     show: false,
     productData: null,
   });
@@ -42,6 +50,14 @@ export default function ProductCard() {
 
   const handleShowModal = (productData) => {
     setModalShow({ show: true, productData: productData });
+  };
+
+  const handleShowEditModal = (productData) => {
+    setModalEditShow({ show: true, productData: productData });
+  };
+
+  const handleCloseEditModal = () => {
+    setModalEditShow({ show: false, productData: null });
   };
 
   const handleCloseModal = () => {
@@ -72,13 +88,37 @@ export default function ProductCard() {
                     <span className="h3 mt-auto">{productData.name}</span>
                   </Card.Title>
                   <Card.Title>Giá: {productData.price}</Card.Title>
-                  <button
-                    id="custom-button"
-                    className="mx-auto shadow"
-                    onClick={() => handleShowModal(productData)}
-                  >
-                    Xem Trước
-                  </button>
+                  {user.admin && (
+                    <div className="action-wrapper">
+                      <button
+                        id="custom-button"
+                        className="mx-auto shadow"
+                        onClick={() => handleShowModal(productData)}
+                      >
+                        Xem Trước
+                      </button>
+                      <button
+                      className="edit-btn-wrapper"
+                      onClick={() => handleShowEditModal(productData)}>
+                      <img className="edit-btn" src={editIcon} alt="" />
+                    </button>
+                    <button className="delete-btn-wrapper">
+                      <img className="delete-btn" src={deleteIcon} alt="" />
+                    </button>
+                    </div>
+                  )}
+
+                  {!user.admin && (
+                    <div className="action-wrapper">
+                      <button
+                        id="custom-button-customer"
+                        className="mx-auto shadow"
+                        onClick={() => handleShowModal(productData)}
+                      >
+                        Xem Trước
+                      </button>
+                    </div>
+                  )}
                 </Card.Body>
               </Card>
             </Col>
@@ -101,10 +141,16 @@ export default function ProductCard() {
         show={modalShow.show}
         onHide={handleCloseModal}
         productData={modalShow.productData}
-        // onSelectProduct={(productData) =>
-        //   setModalShow({ show: false, productData })
-        // }
+      // onSelectProduct={(productData) =>
+      //   setModalShow({ show: false, productData })
+      // }
       />
+      <EditProductModal
+        show={modalEditShow.show}
+        onHide={handleCloseEditModal}
+        productData={modalEditShow.productData}
+      />
+
       {user.admin && <IconAdd />}
 
       {/* {selectedProduct && <ProductDetail productDetails={selectedProduct} />} */}

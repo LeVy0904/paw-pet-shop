@@ -2,8 +2,34 @@
     font-weight: 200;
     font-size: 16px;
 }
+.action-wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-btn-wrapper, .delete-btn-wrapper{
+    background-color: #57557d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    border-radius: 5px;
+    margin-left: 5px;   
+}
+
+.edit-btn, .delete-btn{
+    width: 18px;
+}
 
 #custom-button {
+    background-color: #57557d;
+    color: whitesmoke;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    width: 80%;
+    font-size: 16px;
+}
+#custom-button-customer{
     background-color: #57557d;
     color: whitesmoke;
     border: 1px solid transparent;
