@@ -3,21 +3,62 @@ import Modal from "react-bootstrap/Modal";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+import axios from "axios";
 import Image from "react-bootstrap/Image";
 import { Link, useNavigate } from "react-router-dom";
 import SmallShoppingCart from "./SmallShoppingCart";
 
 export default function ProductModal(props) {
   const { productData, onHide, onSelectProduct, ...modalProps } = props;
+  const [Cart, setCart] = useState();
+  const getUser = localStorage.getItem("user");
+  const user = getUser ? JSON.parse(getUser) : null;
   const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
+
+
   if (!productData) {
     return null;
   }
 
-  const handleAddToCart = () => {
-    // Handle add to cart logic here
+  
+
+  // const addtoCart = () => {
+  //   try {
+  //     const userid = getUser._id;
+  //     const response = axios.get(
+  //       `http://localhost:3001/v1/cart/addToCart/${userid}`
+  //     );
+  //     const data = response;
+  //     const newCart = response.cart.products;
+  //     setCart(newCart);
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  const handleAddToCart = (productData) => {
+
+    try {
+      const userid = user.userid;
+      const productid = productData._id;
+      const product = [{productid: productid, quantity: 1}];
+      console.log(product);
+      const response = axios.post(
+        `http://localhost:3001/v1/cart/addToCart/${userid}`,
+        product
+      );
+      const data = response.data;
+      // const newCart = response.cart.products;
+      // setCart(newCart);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
     setShowCart(true);
+    //addtoCart(productData._id)
+
   };
 
   const handleClose = () => {
@@ -65,7 +106,7 @@ export default function ProductModal(props) {
                   // id="custom-button2"
                   className="add-to-cart-button mt-2"
                   style={{ width: "100%" }}
-                  onClick={handleAddToCart}
+                  onClick={() => handleAddToCart(productData)}
                 >
                   Thêm vào giỏ hàng
                 </button>
