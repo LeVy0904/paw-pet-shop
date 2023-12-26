@@ -14,6 +14,8 @@ import SmallShoppingCart from "../modal/SmallShoppingCart";
 const ProductDetail = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
+  const getUser = localStorage.getItem("user");
+  const user = getUser ? JSON.parse(getUser) : null;
   const [showCart, setShowCart] = useState(false);
   const [productDetails, setProductDetails] = useState(null);
   useEffect(() => {
@@ -40,13 +42,37 @@ const ProductDetail = () => {
     return <div>Loading...</div>;
   }
 
-  const handleBuyNow = () => {
-    navigate(`/cart`);
+  const handleBuyNow = async () => {
+    try {
+      await handleAddToCart(productDetails);
+      navigate(`/cart/${user.userid}`);
+    } catch (error) {
+      console.error("Lỗi khi thêm vào giỏ hàng hoặc chuyển hướng:", error);
+    }
   };
 
-  const handleAddToCart = () => {
-    // Handle add to cart logic here
-    setShowCart(true);
+  const handleAddToCart = async () => {
+    try {
+      const userid = user.userid;
+      let product;
+
+      if (productDetails && productDetails.age) {
+        const petid = productDetails._id;
+        product = [{ petid: petid, quantity: 1 }];
+      }
+      if (productDetails && productDetails.quantity) {
+        const productid = productDetails._id;
+        product = [{ productid: productid, quantity: 1 }];
+      }
+
+      await axios.post(
+        `http://localhost:3001/v1/cart/addToCart/${userid}`,
+        product
+      );
+      setShowCart(true);
+    } catch (error) {
+      console.error("Lỗi khi thêm vào giỏ hàng:", error);
+    }
   };
 
   return (

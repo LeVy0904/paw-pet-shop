@@ -20,7 +20,7 @@ export default function ProductModal(props) {
     return null;
   }
 
-  const handleAddToCart = (productData) => {
+  const handleAddToCart = async (productData) => {
     try {
       const userid = user.userid;
       let product;
@@ -33,14 +33,14 @@ export default function ProductModal(props) {
         product = [{ productid: productid, quantity: 1 }];
       }
       console.log(product);
-      const response = axios.post(
+      await axios.post(
         `http://localhost:3001/v1/cart/addToCart/${userid}`,
         product
       );
-      const data = response.data;
+      // const data = response.data;
       // const newCart = response.cart.products;
       // setCart(newCart);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -52,8 +52,13 @@ export default function ProductModal(props) {
     // onSelectProduct(null); // Reset selected product
   };
 
-  const handleBuyNow = () => {
-    navigate(`/cart`);
+  const handleBuyNow = async () => {
+    try {
+      await handleAddToCart(productData);
+      navigate(`/cart/${user.userid}`);
+    } catch (error) {
+      console.error("Lỗi khi thêm vào giỏ hàng hoặc chuyển hướng:", error);
+    }
   };
 
   return (

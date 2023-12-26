@@ -219,7 +219,7 @@ export default function Cart() {
                     Tên: {product.productid.name}
                   </h3>
                   <h4 className="product-price">
-                    Giá: {product.productid.price}
+                    Giá: {product.productid.price.toLocaleString()} đ
                   </h4>
                   <div className="selectProduct">
                     <label>
@@ -264,7 +264,9 @@ export default function Cart() {
                 <img src={pet.petid.image} alt="" />
                 <div className="product-info">
                   <h3 className="product-name">Tên: {pet.petid.name}</h3>
-                  <h4 className="product-price">Giá: {pet.petid.price}</h4>
+                  <h4 className="product-price">
+                    Giá: {pet.petid.price.toLocaleString()} đ
+                  </h4>
                   <div className="selectProduct">
                     <p>Thú cưng đã đặt hàng.</p>
                   </div>
@@ -284,7 +286,7 @@ export default function Cart() {
           <div className="cart-total">
             <p>
               <span>Tổng giá</span>
-              <span>{totalPrice}</span>
+              <span>{totalPrice.toLocaleString()} đ</span>
             </p>
 
             <p>
@@ -307,7 +309,7 @@ export default function Cart() {
                   <b>Thành tiền </b>
                 </span>
                 <span>
-                  <b>{totalPrice}</b>
+                  <b>{totalPrice.toLocaleString()} đ</b>
                 </span>
               </p>
               <Link onClick={handleSaveSelections}>Tiến hành thanh toán</Link>
