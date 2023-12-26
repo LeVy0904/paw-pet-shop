@@ -251,31 +251,9 @@ export default function Cart() {
                   <h3 className="product-name">Tên: {pet.petid.name}</h3>
                   <h4 className="product-price">Giá: {pet.petid.price}</h4>
                   <div className="selectProduct">
-                    <label>
-                      <input
-                        className="selectProduct-input"
-                        type="checkbox"
-                        checked={selectedProducts[pet.petid._id]}
-                        onChange={() => handleToggleSelect(pet.petid._id)}
-                      />
-                      Chọn
-                    </label>
+                    <p>Thú cưng đã đặt hàng.</p>
                   </div>
-                  <p className="product-quantity">
-                    <button
-                      className="btn"
-                      onClick={() => handleDecreaseQuantity(pet.petid)}
-                    >
-                      -
-                    </button>
-                    <input value={pet.quantity} name="" />
-                    <button
-                      className="btn"
-                      onClick={() => handleIncreaseQuantity(pet.petid)}
-                    >
-                      +
-                    </button>
-                  </p>
+
                   <p
                     onClick={() => handleDeleteItem(pet.petid)}
                     className="product-remove"
