@@ -3,12 +3,12 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import editIcon from "../../img/edit.png"
-import deleteIcon from "../../img/delete.png"
+import editIcon from "../../img/edit.png";
+import deleteIcon from "../../img/delete.png";
 // import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import ProductModal from "../modal/ProductModal";
-import EditProductModal from "../modal/EditProduct"
+import EditProductModal from "../modal/EditProduct";
 //import { productDataList } from "../../data/data";
 import IconAdd from "../iconadd/iconadd";
 import "./productCard.css";
@@ -87,7 +87,9 @@ export default function ProductCard() {
                   <Card.Title className="mt-auto">
                     <span className="h3 mt-auto">{productData.name}</span>
                   </Card.Title>
-                  <Card.Title>Giá: {productData.price}</Card.Title>
+                  <Card.Title>
+                    Giá: {productData.price.toLocaleString()} đ
+                  </Card.Title>
                   {user.admin && (
                     <div className="action-wrapper">
                       <button
@@ -98,13 +100,14 @@ export default function ProductCard() {
                         Xem Trước
                       </button>
                       <button
-                      className="edit-btn-wrapper"
-                      onClick={() => handleShowEditModal(productData)}>
-                      <img className="edit-btn" src={editIcon} alt="" />
-                    </button>
-                    <button className="delete-btn-wrapper">
-                      <img className="delete-btn" src={deleteIcon} alt="" />
-                    </button>
+                        className="edit-btn-wrapper"
+                        onClick={() => handleShowEditModal(productData)}
+                      >
+                        <img className="edit-btn" src={editIcon} alt="" />
+                      </button>
+                      <button className="delete-btn-wrapper">
+                        <img className="delete-btn" src={deleteIcon} alt="" />
+                      </button>
                     </div>
                   )}
 
@@ -141,9 +144,9 @@ export default function ProductCard() {
         show={modalShow.show}
         onHide={handleCloseModal}
         productData={modalShow.productData}
-      // onSelectProduct={(productData) =>
-      //   setModalShow({ show: false, productData })
-      // }
+        // onSelectProduct={(productData) =>
+        //   setModalShow({ show: false, productData })
+        // }
       />
       <EditProductModal
         show={modalEditShow.show}

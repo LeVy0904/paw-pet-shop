@@ -1,5 +1,5 @@
 import './App.css';
-import Credit from './components/credit/credit';
+import Credit from './pages/orderPage';
 import Cart from './pages/cartPage';
 import Slider from './components/slider/reactslider';
 import About from './components/about/about';
@@ -9,7 +9,7 @@ import ProductCard from './pages/productPage';
 import Profile from './pages/profilePage';
 import ProductDetail from './pages/detailProductPage';
 import PetCart from './pages/petPage';
-import EditProduct from './components/modal/EditProduct';
+// import EditProduct from './components/modal/EditProduct';
 import NotFound from './components/not-found/NotFound';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from './components/signup/Signup';
@@ -32,7 +32,7 @@ function App() {
           <Route path="/slider" element={<Slider />} />
           <Route path="/profile/:customerid" element={<Profile />} />
           <Route path="/cart/:customerid" element={<Cart />} />
-          <Route path="/credit" element={<Credit />} />
+          <Route path="/order/:orderid" element={<Credit />} />
           <Route path="/product-detail/:productId" element={<ProductDetail />} />
           <Route path="*" element={<NotFound />} />
           {/* <Route path="/tvshows" element={<Tvshows />} />

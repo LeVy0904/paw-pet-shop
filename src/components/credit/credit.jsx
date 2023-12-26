@@ -1,13 +1,17 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "../credit/credit.css";
 import pay from "../../img/paypal.png";
 import stripe from "../../img/stripe.png";
 import visa from "../../img/visa.png";
 import master from "../../img/mastercard.png";
+import axios from "axios";
 
 export default function Credit() {
   const navigate = useNavigate();
+  const { orderid } = useParams();
+  console.log(orderid);
+  const [orderData, setOrderData] = useState(null);
   const [formData, setFormData] = useState({
     email: "",
     cardNumber: "",
@@ -44,6 +48,24 @@ export default function Credit() {
       navigate("/products");
     }
   };
+
+  useEffect(() => {
+    const fetchOrderData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/v1/order/getOrderById/${orderid}`
+        );
+        const fetchedOrderData = response.data.order;
+        console.log(fetchedOrderData);
+        setOrderData(fetchedOrderData);
+      } catch (error) {
+        console.error("Lỗi khi lấy thông tin đơn hàng:", error);
+      }
+    };
+
+    fetchOrderData();
+  }, [orderid]);
+
   return (
     <section className="credit-section">
       <div className="container">
@@ -54,9 +76,7 @@ export default function Credit() {
                 <i className="ri-flashlight-fill"></i>
               </div>
               <div className="credit-hd-title">Khách Hàng Thân Thiết</div>
-              <p className="credit-hd-description">
-                
-              </p>
+              <p className="credit-hd-description"></p>
             </div>
 
             <div className="credit-content">
@@ -74,18 +94,22 @@ export default function Credit() {
                 <div className="credit-sum">
                   <div className="credit-sum-item">
                     <div className="credit-sum-name">Tổng Tiền</div>
-                    <div className="credit-sum-price">360.000 vnd</div>
+                    <div className="credit-sum-price">
+                      {orderData.totalPrice.toLocaleString() + " đ"}
+                    </div>
                   </div>
 
                   <div className="credit-sum-item">
-                    <div className="credit-sum-name">Giảm  20%</div>
-                    <div className="credit-sum-price">-36.000 vnd</div>
+                    <div className="credit-sum-name">Giảm giá</div>
+                    <div className="credit-sum-price">0 đ</div>
                   </div>
 
                   <div className="credit-sum-divider"></div>
                   <div className="credit-sum-item credit-sum-total">
-                    <div className="credit-sum-name">Thành Tiền</div>
-                    <div className="credit-sum-price">324.000 vnd</div>
+                    <div className="credit-sum-name"></div>
+                    <div className="credit-sum-price">
+                      {orderData.totalPrice.toLocaleString() + " đ"}
+                    </div>
                   </div>
                 </div>
               </div>

@@ -71,7 +71,7 @@ const ProductDetail = () => {
                 </Card.Title>
                 <Card.Subtitle className="product-subtitle">
                   <span className="h5" style={{ color: "#5d6bb0" }}>
-                    Giá: {productDetails.price} VNĐ
+                    Giá: {productDetails.price.toLocaleString()} đ
                   </span>
                 </Card.Subtitle>
                 <Card.Text className="mt-3">

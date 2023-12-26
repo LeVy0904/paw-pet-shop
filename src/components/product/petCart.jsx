@@ -68,7 +68,9 @@ export default function PetCard() {
                   <Card.Title className="mt-auto">
                     <span className="h3 mt-auto">{productData.name}</span>
                   </Card.Title>
-                  <Card.Title>Giá: {productData.price}</Card.Title>
+                  <Card.Title>
+                    Giá: {productData.price.toLocaleString()} đ
+                  </Card.Title>
                   <button
                     id="custom-button"
                     className="mx-auto shadow"

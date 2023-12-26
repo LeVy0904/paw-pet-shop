@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../cart/cart.css";
-import cat from "../../img/bonludan.jpeg";
+// import cat from "../../img/bonludan.jpeg";
 import { Link } from "react-router-dom";
 
 export default function Cart() {
   const navigate = useNavigate();
-  const [cart, setCart] = useState();
+  // const [cart, setCart] = useState();
   const [products, setProduct] = useState([]);
   const [pets, setPet] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState({});
@@ -20,12 +20,12 @@ export default function Cart() {
       );
       const newData = response.data.cart;
       const newProduct = response.data.cart.products;
-      const newPet = response.data.cart.pets
+      const newPet = response.data.cart.pets;
       const initialSelectedProducts = newProduct.reduce((acc, product) => {
         return { ...acc, [product.productid._id]: product.selected };
       }, {});
 
-      setCart(newData);
+      // setCart(newData);
       setProduct(newProduct);
       setPet(newPet);
       setSelectedProducts(initialSelectedProducts);
@@ -41,7 +41,6 @@ export default function Cart() {
     fetchData(); // Fetch data when the component mounts or customerid changes
   }, [customerid]);
 
-
   const handleToggleSelect = (productid) => {
     const newSelectedValue = !selectedProducts[productid];
     const updatedSelectedProducts = {
@@ -53,14 +52,14 @@ export default function Cart() {
 
   const handleIncreaseQuantity = async (productid) => {
     try {
-      const response = await axios.put(
+      await axios.put(
         `http://localhost:3001/v1/cart/updateCart/${customerid}`,
         {
           productid: productid._id,
           action: "increase",
         }
       );
-      setCart(response);
+      // setCart(response);
       updateCartData();
     } catch (error) {
       console.error("Error updating cart:", error);
@@ -69,7 +68,7 @@ export default function Cart() {
 
   const handleDecreaseQuantity = async (productid) => {
     try {
-      const response = await axios.put(
+      await axios.put(
         `http://localhost:3001/v1/cart/updateCart/${customerid}`,
         {
           productid: productid._id,
@@ -110,14 +109,13 @@ export default function Cart() {
       const newData = response.data.cart;
       const newProduct = response.data.cart.products;
 
-
       const initialSelectedProducts = newProduct.reduce((acc, product) => {
         return { ...acc, [product.productid._id]: false };
       }, {});
 
-      setCart(newData);
+      // setCart(newData);
       setProduct(newProduct);
-      
+
       setSelectedProducts(initialSelectedProducts);
 
       localStorage.setItem("Cart", JSON.stringify(newData));
@@ -128,24 +126,35 @@ export default function Cart() {
 
   const handleSaveSelections = async () => {
     try {
-      for (const productid in selectedProducts) {
-        const selected = selectedProducts[productid];
+      const updatePromises = Object.entries(selectedProducts).map(
+        async ([productid, selected]) => {
+          const response = await axios.put(
+            `http://localhost:3001/v1/cart/updateCart/${customerid}`,
+            {
+              productid,
+              selected,
+            }
+          );
+          console.log(
+            `Sản phẩm ${productid} đã được cập nhật. Đã chọn: ${selected}`,
+            response.data
+          );
+        }
+      );
 
-        const response = await axios.put(
-          `http://localhost:3001/v1/cart/updateCart/${customerid}`,
-          {
-            productid,
-            selected,
-          }
-        );
-
-        console.log(
-          `Sản phẩm ${productid} đã được cập nhật. Đã chọn: ${selected}`,
-          response.data
-        );
-      }
+      await Promise.all(updatePromises);
 
       console.log("Tất cả sản phẩm đã chọn đã được gửi lên server.");
+
+      try {
+        const response = await axios.post(
+          `http://localhost:3001/v1/order/addOrder/${customerid}`
+        );
+        console.log(response.data.order);
+        navigate(`/order/${response.data.order._id}`);
+      } catch (error) {
+        console.log("Lỗi khi xuất hóa đơn: ", error);
+      }
     } catch (error) {
       console.error("Lỗi khi cập nhật thông tin sản phẩm đã chọn:", error);
     }
@@ -169,7 +178,7 @@ export default function Cart() {
     for (const product of products) {
       const productId = product.productid._id;
       if (selectedProducts[productId]) {
-        productsQ ++;
+        productsQ++;
       }
     }
 
@@ -239,21 +248,15 @@ export default function Cart() {
               <div key={pet.petid._id} className="product">
                 <img src={pet.petid.image} alt="" />
                 <div className="product-info">
-                  <h3 className="product-name">
-                    Tên: {pet.petid.name}
-                  </h3>
-                  <h4 className="product-price">
-                    Giá: {pet.petid.price}
-                  </h4>
+                  <h3 className="product-name">Tên: {pet.petid.name}</h3>
+                  <h4 className="product-price">Giá: {pet.petid.price}</h4>
                   <div className="selectProduct">
                     <label>
                       <input
                         className="selectProduct-input"
                         type="checkbox"
                         checked={selectedProducts[pet.petid._id]}
-                        onChange={() =>
-                          handleToggleSelect(pet.petid._id)
-                        }
+                        onChange={() => handleToggleSelect(pet.petid._id)}
                       />
                       Chọn
                     </label>
@@ -314,7 +317,7 @@ export default function Cart() {
                   <b>{totalPrice}</b>
                 </span>
               </p>
-              <Link onClick={handleSaveSelections} to={"/credit"}>Tiến hành thanh toán</Link>
+              <Link onClick={handleSaveSelections}>Tiến hành thanh toán</Link>
             </div>
           </div>
         </div>
