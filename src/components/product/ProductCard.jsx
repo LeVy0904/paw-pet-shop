@@ -68,6 +68,40 @@ export default function ProductCard() {
     setVisibleProducts((prev) => prev + 6); // Tăng số lượng sản phẩm khi bấm nút "Xem thêm"
   };
 
+  const handleDeleteProduct = async (productData) => {
+    if (productData.age) {
+      const id = productData._id;
+      const petApi = "http://localhost:3001/v1/pet/deletePet/" + id;
+
+      try {
+        const response = await axios.delete(petApi);
+
+        if (response.status === 201) {
+          console.log("Sản phẩm đã được xóa thành công");
+          window.location.reload();
+        } else {
+          console.error("Xóa sản phẩm thất bại:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Lỗi khi xóa sản phẩm:", error);
+      }
+    }
+    const id = productData._id;
+    const productApi = "http://localhost:3001/v1/product/deleteProduct/" + id;
+    try {
+      const response = await axios.delete(productApi);
+
+      if (response.status === 201) {
+        console.log("Sản phẩm đã được xóa thành công");
+        window.location.reload();
+      } else {
+        console.error("Xóa sản phẩm thất bại:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Lỗi khi xóa sản phẩm:", error);
+    }
+  };
+
   return (
     <>
       <Container className="py-2">
@@ -105,7 +139,10 @@ export default function ProductCard() {
                       >
                         <img className="edit-btn" src={editIcon} alt="" />
                       </button>
-                      <button className="delete-btn-wrapper">
+                      <button
+                        className="delete-btn-wrapper"
+                        onClick={() => handleDeleteProduct(productData)}
+                      >
                         <img className="delete-btn" src={deleteIcon} alt="" />
                       </button>
                     </div>

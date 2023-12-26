@@ -82,18 +82,33 @@ export default function Cart() {
 
   const handleDeleteItem = async (productid) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3001/v1/cart/deleteItemById/${customerid}`,
-        {
-          data: { productid: productid._id },
+      if (productid.age) {
+        const response = await axios.delete(
+          `http://localhost:3001/v1/cart/deleteItemById/${customerid}`,
+          {
+            data: { petid: productid._id },
+          }
+        );
+        if (response.status === 200) {
+          console.log("Sản phẩm đã được xóa thành công");
+          updateCartData();
+        } else {
+          console.error("Lỗi khi xóa sản phẩm:", response.data.message);
         }
-      );
-
-      if (response.status === 200) {
-        console.log("Sản phẩm đã được xóa thành công");
-        updateCartData();
-      } else {
-        console.error("Lỗi khi xóa sản phẩm:", response.data.message);
+      }
+      if (productid.quantity) {
+        const response = await axios.delete(
+          `http://localhost:3001/v1/cart/deleteItemById/${customerid}`,
+          {
+            data: { productid: productid._id },
+          }
+        );
+        if (response.status === 200) {
+          console.log("Sản phẩm đã được xóa thành công");
+          updateCartData();
+        } else {
+          console.error("Lỗi khi xóa sản phẩm:", response.data.message);
+        }
       }
     } catch (error) {
       console.error("Lỗi khi xóa sản phẩm:", error);
@@ -107,14 +122,15 @@ export default function Cart() {
       );
       const newData = response.data.cart;
       const newProduct = response.data.cart.products;
+      const newPet = response.data.cart.pets;
 
       const initialSelectedProducts = newProduct.reduce((acc, product) => {
         return { ...acc, [product.productid._id]: false };
       }, {});
 
-      // setCart(newData);
+      //setCart(newData);
       setProduct(newProduct);
-
+      setPet(newPet);
       setSelectedProducts(initialSelectedProducts);
 
       localStorage.setItem("Cart", JSON.stringify(newData));
