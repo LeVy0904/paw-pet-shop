@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../credit/credit.css";
 import pay from "../../img/paypal.png";
@@ -18,6 +18,7 @@ export default function Credit() {
     expiryDate: "",
     cvv: "",
   });
+  const orderDataRef = useRef(orderData);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,9 +38,8 @@ export default function Credit() {
 
     if (emptyFields.length > 0) {
       const fieldNames = emptyFields.map(([field]) => field);
-      const errorMessage = `Xin vui lòng điền vào các trường còn trống sau:${
-        fieldNames.length > 1 ? "s" : ""
-      }: ${fieldNames.join(", ")}.`;
+      const errorMessage = `Xin vui lòng điền vào các trường còn trống sau:${fieldNames.length > 1 ? "s" : ""
+        }: ${fieldNames.join(", ")}.`;
 
       alert(errorMessage);
     } else {
@@ -65,6 +65,42 @@ export default function Credit() {
 
     fetchOrderData();
   }, [orderid]);
+
+  const handleBeforeUnload = (event) => {
+    if (orderData && orderData.status === "create") {
+      const confirmationMessage =
+        "Đơn hàng chưa hoàn thành. Bạn có muốn rời khỏi trang?";
+      event.returnValue = confirmationMessage; // Thông báo cho trình duyệt
+      return confirmationMessage;
+    }
+  };
+
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+
+  //   const handlePopState = (event) => {
+  //     if (orderData && orderData.status === "create") {
+  //       const confirmation = window.prompt(
+  //         "Đơn hàng chưa hoàn thành. Bạn có muốn rời khỏi trang không? (Nhập 'Có' để xác nhận)"
+  //       );
+
+  //       if (confirmation === "Có" || confirmation === "có") {
+  //         setOrderData(null);
+  //         navigate("/products");
+  //       } else {
+  //         // Không chấp nhận rời khỏi trang, giữ nguyên trạng thái đơn hàng
+  //         window.history.pushState(null, "", window.location.href);
+  //       }
+  //     }
+  //   };
+
+  //   window.addEventListener("popstate", handlePopState);
+
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //     window.removeEventListener("popstate", handlePopState);
+  //   };
+  // }, [orderData, navigate]);
 
   return (
     <section className="credit-section">
