@@ -13,31 +13,30 @@ export default function Cart() {
   const [selectedProducts, setSelectedProducts] = useState({});
   const { customerid } = useParams();
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:3001/v1/cart/getCart/${customerid}`
-      );
-      const newData = response.data.cart;
-      const newProduct = response.data.cart.products;
-      const newPet = response.data.cart.pets;
-      const initialSelectedProducts = newProduct.reduce((acc, product) => {
-        return { ...acc, [product.productid._id]: product.selected };
-      }, {});
-
-      // setCart(newData);
-      setProduct(newProduct);
-      setPet(newPet);
-      setSelectedProducts(initialSelectedProducts);
-      console.log(initialSelectedProducts);
-
-      localStorage.setItem("Cart", JSON.stringify(newData));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/v1/cart/getCart/${customerid}`
+        );
+        const newData = response.data.cart;
+        const newProduct = response.data.cart.products;
+        const newPet = response.data.cart.pets;
+        const initialSelectedProducts = newProduct.reduce((acc, product) => {
+          return { ...acc, [product.productid._id]: product.selected };
+        }, {});
+
+        // setCart(newData);
+        setProduct(newProduct);
+        setPet(newPet);
+        setSelectedProducts(initialSelectedProducts);
+        console.log(initialSelectedProducts);
+
+        localStorage.setItem("Cart", JSON.stringify(newData));
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchData(); // Fetch data when the component mounts or customerid changes
   }, [customerid]);
 
