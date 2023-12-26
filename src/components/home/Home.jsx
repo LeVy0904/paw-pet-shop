@@ -1,6 +1,7 @@
 import React from "react";
 import chaBong from "../../img/chabongimg.jpg";
 import chaBong1 from "../../img/chabong.jpg";
+import { Link } from "react-router-dom";
 // import chaBong1 from "../../img/chabong.jpg"
 import "./home.css";
 import Reactslider from "../slider/reactslider";
@@ -30,9 +31,9 @@ export default function Home() {
                 Nhìn thấy một đĩa pa tê <br /> "Thật là một ngày may mắn..."
               </p>
             </div>
-            <a href="/products">
+            <Link to="/products">
               <button className="hover-button">SẢN PHẨM</button>
-            </a>
+            </Link>
           </div>
         </div>
         <div className="home-frame-2">
