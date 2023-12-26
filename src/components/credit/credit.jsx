@@ -95,7 +95,8 @@ export default function Credit() {
                   <div className="credit-sum-item">
                     <div className="credit-sum-name">Tổng Tiền</div>
                     <div className="credit-sum-price">
-                      {orderData.totalPrice.toLocaleString() + " đ"}
+                      {orderData &&
+                        orderData.totalPrice.toLocaleString() + " đ"}
                     </div>
                   </div>
 
@@ -108,7 +109,8 @@ export default function Credit() {
                   <div className="credit-sum-item credit-sum-total">
                     <div className="credit-sum-name"></div>
                     <div className="credit-sum-price">
-                      {orderData.totalPrice.toLocaleString() + " đ"}
+                      {orderData &&
+                        orderData.totalPrice.toLocaleString() + " đ"}
                     </div>
                   </div>
                 </div>

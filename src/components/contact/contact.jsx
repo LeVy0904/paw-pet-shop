@@ -21,10 +21,12 @@ export default function Contact() {
                 type="email"
                 name="name"
                 placeholder="Nhập Email của bạn"
+                required
               />
               <textarea
                 name="message"
                 placeholder="Lời nhắn gửi của bạn"
+                required
               ></textarea>
               <button type="submit" className="btn">
                 Gửi <i className="fas fa-paper"></i>

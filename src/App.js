@@ -1,9 +1,9 @@
 import './App.css';
 import Credit from './pages/orderPage';
 import Cart from './pages/cartPage';
-import Slider from './components/slider/reactslider';
-import About from './components/about/about';
-import Contact from './components/contact/contact';
+// import Slider from './components/slider/reactslider';
+import About from './pages/aboutPage';
+import Contact from './pages/contactPage';
 import Home from './pages/homePage';
 import ProductCard from './pages/productPage';
 import Profile from './pages/profilePage';
@@ -29,7 +29,7 @@ function App() {
           <Route path="/pet" element={< PetCart />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
-          <Route path="/slider" element={<Slider />} />
+          {/* <Route path="/slider" element={<Slider />} /> */}
           <Route path="/profile/:customerid" element={<Profile />} />
           <Route path="/cart/:customerid" element={<Cart />} />
           <Route path="/order/:orderid" element={<Credit />} />
