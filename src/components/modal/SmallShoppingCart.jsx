@@ -57,10 +57,10 @@ const SmallShoppingCart = ({ show, onHide }) => {
         {cart.map((item, index) => (
           <Row key={index} className="mb-2">
             <Col xs={3}>
-              <Image src={item.image} alt={item.title} fluid rounded />
+              <Image src={item.image} alt={item.name} fluid rounded />
             </Col>
             <Col xs={8}>
-              <p className="mb-0">{item.title}</p>
+              <p className="mb-0">{item.name}</p>
               <p className="mb-0">{item.price} VNĐ</p>
               <Col xs={12} className="mt-2">
                 <button

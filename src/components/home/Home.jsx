@@ -6,6 +6,7 @@ import "./home.css";
 import Reactslider from "../slider/reactslider";
 // import { Link } from "react-router-dom";
 // import Button from "react-bootstrap/Button";
+// import { useParams } from "react-router";
 
 export default function Home() {
   return (

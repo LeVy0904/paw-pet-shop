@@ -10,7 +10,7 @@ export default function SearchPage() {
             type="button"
             className="btn btn-link text-warning"
           >
-            <i class="fas fa-search"></i>
+            <i className="fas fa-search"></i>
           </button>
         </div>
         <input

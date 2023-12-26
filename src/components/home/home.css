@@ -26,7 +26,8 @@
     color: #f8a075;
     font-size: 37px;
     font-weight: bold;
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Sriracha', cursive !important;
+
 }
 
 
@@ -226,7 +227,8 @@
 
   }
   .hover-story p{
-    font-family: 'Sriracha', cursive;    color: #57557d;
+    font-family: 'Sriracha', cursive;
+    color: #57557d;
     font-size: larger;
     /* opacity: calc(200%); */
   }

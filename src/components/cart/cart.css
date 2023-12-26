@@ -69,6 +69,16 @@
 
 }
 
+.selectProduct {
+	text-align: left;
+	font-size: 18px;
+	font-weight: 500;
+}
+
+.selectProduct-input {
+	margin-right: 5px;
+}
+
 .product-remove {
 	position: absolute;
 	bottom: -13px;
@@ -100,14 +110,13 @@
 }
 
 .cart-total {
-
 	flex: 0.25;
 	margin-left: 20px;
 	padding: 20px;
 	height: 380px;
 	border: 1px solid silver;
 	border-radius: 5px;
-
+	margin-bottom: 20px;
 
 }
 

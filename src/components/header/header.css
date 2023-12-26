@@ -11,7 +11,7 @@
     background: linear-gradient(to top, #f9a378, #ffc0a0);
 }
 
-.custom-header2 img{
+.custom-header2 img {
     width: 180px !important;
 }
 
@@ -35,6 +35,16 @@
 
 .navbar-toggler:focus {
     box-shadow: 0 0 0 2px #f88d58 !important;
+}
+
+a.dropdown-item:hover {
+    background-color: #ffcdb3 !important;
+    color: white !important;
+
+}
+
+.dropdown-menu.show {
+    padding: 5px;
 }
 
 /* #custom-search {
