@@ -21,44 +21,32 @@ export default function ProductModal(props) {
     return null;
   }
 
-  
-
-  // const addtoCart = () => {
-  //   try {
-  //     const userid = getUser._id;
-  //     const response = axios.get(
-  //       `http://localhost:3001/v1/cart/addToCart/${userid}`
-  //     );
-  //     const data = response;
-  //     const newCart = response.cart.products;
-  //     setCart(newCart);
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
   const handleAddToCart = (productData) => {
 
     try {
       const userid = user.userid;
-      const productid = productData._id;
-      const product = [{productid: productid, quantity: 1}];
+      let product;
+      if(productData && productData.age) {
+        const petid = productData._id;
+        product = [{petid: petid, quantity: 1}];
+      }
+      if (productData && productData.quantity) { 
+        const productid = productData._id;
+        product = [{productid: productid, quantity: 1}];
+      }   
       console.log(product);
       const response = axios.post(
         `http://localhost:3001/v1/cart/addToCart/${userid}`,
         product
       );
       const data = response.data;
-      // const newCart = response.cart.products;
-      // setCart(newCart);
+      const newCart = response.cart.products;
+      setCart(newCart);
       console.log(data);
     } catch (error) {
       console.log(error);
     }
     setShowCart(true);
-    //addtoCart(productData._id)
-
   };
 
   const handleClose = () => {

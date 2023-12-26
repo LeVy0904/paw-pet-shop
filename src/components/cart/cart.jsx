@@ -9,6 +9,7 @@ export default function Cart() {
   const navigate = useNavigate();
   const [cart, setCart] = useState();
   const [products, setProduct] = useState([]);
+  const [pets, setPet] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState({});
   const { customerid } = useParams();
 
@@ -19,13 +20,14 @@ export default function Cart() {
       );
       const newData = response.data.cart;
       const newProduct = response.data.cart.products;
-
+      const newPet = response.data.cart.pets
       const initialSelectedProducts = newProduct.reduce((acc, product) => {
         return { ...acc, [product.productid._id]: product.selected };
       }, {});
 
       setCart(newData);
       setProduct(newProduct);
+      setPet(newPet);
       setSelectedProducts(initialSelectedProducts);
       console.log(initialSelectedProducts);
 
@@ -108,12 +110,14 @@ export default function Cart() {
       const newData = response.data.cart;
       const newProduct = response.data.cart.products;
 
+
       const initialSelectedProducts = newProduct.reduce((acc, product) => {
         return { ...acc, [product.productid._id]: false };
       }, {});
 
       setCart(newData);
       setProduct(newProduct);
+      
       setSelectedProducts(initialSelectedProducts);
 
       localStorage.setItem("Cart", JSON.stringify(newData));
@@ -223,6 +227,54 @@ export default function Cart() {
                   </p>
                   <p
                     onClick={() => handleDeleteItem(product.productid)}
+                    className="product-remove"
+                  >
+                    <i className="fa fa-trash" aria-hidden="true"></i>
+                    <span className="remove">Gỡ bỏ</span>
+                  </p>
+                </div>
+              </div>
+            ))}
+            {pets.map((pet) => (
+              <div key={pet.petid._id} className="product">
+                <img src={pet.petid.image} alt="" />
+                <div className="product-info">
+                  <h3 className="product-name">
+                    Tên: {pet.petid.name}
+                  </h3>
+                  <h4 className="product-price">
+                    Giá: {pet.petid.price}
+                  </h4>
+                  <div className="selectProduct">
+                    <label>
+                      <input
+                        className="selectProduct-input"
+                        type="checkbox"
+                        checked={selectedProducts[pet.petid._id]}
+                        onChange={() =>
+                          handleToggleSelect(pet.petid._id)
+                        }
+                      />
+                      Chọn
+                    </label>
+                  </div>
+                  <p className="product-quantity">
+                    <button
+                      className="btn"
+                      onClick={() => handleDecreaseQuantity(pet.petid)}
+                    >
+                      -
+                    </button>
+                    <input value={pet.quantity} name="" />
+                    <button
+                      className="btn"
+                      onClick={() => handleIncreaseQuantity(pet.petid)}
+                    >
+                      +
+                    </button>
+                  </p>
+                  <p
+                    onClick={() => handleDeleteItem(pet.petid)}
                     className="product-remove"
                   >
                     <i className="fa fa-trash" aria-hidden="true"></i>
